@@ -40,6 +40,7 @@ mod tests {
     use std::collections::HashMap;
 
     use failure::Error;
+    use ulid::Ulid;
 
     use crate::domains::documents::{Document, DocumentBody, DocumentId, DocumentTitle};
     use crate::repositories::documents::DocumentRepository;
@@ -71,6 +72,6 @@ mod tests {
         );
         let result = post_document(&mut repository, input);
         assert!(result.is_ok());
-        println!("{}", result.unwrap().id.value);
+        assert!(Ulid::from_string(&result.unwrap().id.value).is_ok());
     }
 }
