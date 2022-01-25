@@ -30,7 +30,7 @@ mod document_id_tests {
 
 #[derive(Debug, Clone)]
 pub struct DocumentTitle {
-    value: String,
+    pub value: String,
 }
 
 impl DocumentTitle {
@@ -75,7 +75,7 @@ mod document_title_tests {
 
 #[derive(Debug, Clone)]
 pub struct DocumentBody {
-    value: String,
+    pub value: String,
 }
 
 impl DocumentBody {
