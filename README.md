@@ -12,25 +12,27 @@ Thanks.
 ### create .env file
 
 ```sh
-$ echo DATABASE_URL=mysql://sample:sample@127.0.0.1:13306/sample > .env
+echo DATABASE_URL=mysql://sample:sample@127.0.0.1:13306/sample > .env
 ```
 
 ### wake up MySQL
 
 ```sh
-$ docker-compose up
+docker-compose up
 ```
 
 ### wake up Http Server
 
 ```sh
-$ cargo run
+cargo run
 ```
 
 ### access to hello world!
 
 ```sh
-$ curl -i -X GET http://127.0.0.1:8080
+curl -i -X GET http://127.0.0.1:8080
+```
+```
 HTTP/1.1 200 OK
 content-length: 12
 date: Wed, 26 Jan 2022 13:59:02 GMT
@@ -41,7 +43,9 @@ Hello World!%
 ### post documents
 
 ```sh
-$ curl -i -X POST -H "Content-Type: application/json" -d '{"title":"sample title", "body":"sample body"}' http://127.0.0.1:8080/documents
+curl -i -X POST -H "Content-Type: application/json" -d '{"title":"sample title", "body":"sample body"}' http://127.0.0.1:8080/documents
+```
+```
 HTTP/1.1 200 OK
 content-length: 35
 content-type: application/json
