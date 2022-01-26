@@ -1,19 +1,10 @@
+use diesel::{MysqlConnection, RunQueryDsl};
 use diesel::r2d2::{ConnectionManager, Pool};
-use diesel::MysqlConnection;
 use failure::Error;
 
-use crate::domains::documents::{Document, DocumentId};
+use crate::domains::documents::Document;
+use crate::interface_adaptors::databases::models::DocumentEntity;
 use crate::repositories::documents::DocumentRepository;
-
-//
-// Entity
-//
-
-pub struct DocumentEntity {
-    pub id: String,
-    pub title: String,
-    pub body: String,
-}
 
 impl DocumentEntity {
     fn from(model: &Document) -> Self {
@@ -30,8 +21,15 @@ pub struct DocumentRepositoryImplOnMySQL {
 }
 
 impl DocumentRepository for DocumentRepositoryImplOnMySQL {
-    fn insert(&mut self, document: &Document) -> Result<DocumentId, Error> {
-        DocumentEntity::from(document);
-        todo!()
+    fn insert(&mut self, document: &Document) -> Result<(), Error> {
+        use super::super::interface_adaptors::databases::schema::documents::dsl;
+
+        let entity = DocumentEntity::from(document);
+        let conn = self.pool.get().unwrap();
+        diesel::insert_into(dsl::documents)
+            .values(entity)
+            .execute(&conn)?;
+
+        Ok(())
     }
 }
