@@ -1,5 +1,5 @@
-use diesel::{MysqlConnection, RunQueryDsl};
 use diesel::r2d2::{ConnectionManager, Pool};
+use diesel::{MysqlConnection, RunQueryDsl};
 use failure::Error;
 
 use crate::domains::documents::Document;

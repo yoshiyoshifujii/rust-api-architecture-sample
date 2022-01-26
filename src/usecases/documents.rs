@@ -17,7 +17,7 @@ impl PostDocumentInput {
 
 #[derive(Debug, Clone)]
 pub struct PostDocumentOutput {
-    id: DocumentId,
+    pub id: DocumentId,
 }
 
 impl PostDocumentOutput {
@@ -28,9 +28,9 @@ impl PostDocumentOutput {
 
 pub fn post_document(
     repository: &mut impl DocumentRepository,
-    input: PostDocumentInput,
+    input: &PostDocumentInput,
 ) -> Result<PostDocumentOutput, Error> {
-    let document = Document::create(DocumentId::new(), input.title, input.body);
+    let document = Document::create(input.title.to_owned(), input.body.to_owned());
     let result = repository.insert(&document);
     result.map(|_| PostDocumentOutput::new(document.id))
 }
@@ -70,7 +70,7 @@ mod tests {
             DocumentTitle::new(String::from("sample title")),
             DocumentBody::new(String::from("sample body")),
         );
-        let result = post_document(&mut repository, input);
+        let result = post_document(&mut repository, &input);
         assert!(result.is_ok());
         assert!(Ulid::from_string(&result.unwrap().id.value).is_ok());
     }

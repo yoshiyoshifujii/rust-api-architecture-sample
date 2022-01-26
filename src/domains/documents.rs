@@ -107,7 +107,8 @@ pub struct Document {
 }
 
 impl Document {
-    pub fn create(id: DocumentId, title: DocumentTitle, body: DocumentBody) -> Self {
+    pub fn create(title: DocumentTitle, body: DocumentBody) -> Self {
+        let id = DocumentId::new();
         Self { id, title, body }
     }
 }
