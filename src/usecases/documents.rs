@@ -32,7 +32,7 @@ pub fn post_document(
 ) -> Result<PostDocumentOutput, Error> {
     let document = Document::create(DocumentId::new(), input.title, input.body);
     let result = repository.insert(&document);
-    result.map(|id| PostDocumentOutput::new(id))
+    result.map(|_| PostDocumentOutput::new(document.id))
 }
 
 #[cfg(test)]
@@ -51,13 +51,13 @@ mod tests {
     }
 
     impl DocumentRepository for DocumentRepositoryImplOnMemory {
-        fn insert(&mut self, document: &Document) -> Result<DocumentId, Error> {
+        fn insert(&mut self, document: &Document) -> Result<(), Error> {
             let _ = &self
                 .pool
                 .entry(document.id.clone())
                 .or_insert_with(|| vec![])
                 .push(document.clone());
-            Ok(document.id.clone())
+            Ok(())
         }
     }
 
