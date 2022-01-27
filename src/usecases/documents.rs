@@ -47,7 +47,7 @@ mod tests {
     use crate::usecases::documents::{post_document, PostDocumentInput};
 
     pub struct DocumentRepositoryImplOnMemory {
-        pub pool: HashMap<DocumentId, Vec<Document>>,
+        pool: HashMap<DocumentId, Vec<Document>>,
     }
 
     impl DocumentRepository for DocumentRepositoryImplOnMemory {
