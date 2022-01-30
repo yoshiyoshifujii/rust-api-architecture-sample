@@ -21,7 +21,7 @@ pub struct DocumentRepositoryImplOnMySQL {
 }
 
 impl DocumentRepository for DocumentRepositoryImplOnMySQL {
-    fn insert(&mut self, document: &Document) -> Result<(), Error> {
+    fn insert(&self, document: &Document) -> Result<(), Error> {
         use super::super::interface_adaptors::databases::schema::documents::dsl;
 
         let entity = DocumentEntity::from(document);

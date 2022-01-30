@@ -37,6 +37,7 @@ pub fn post_document(
 
 #[cfg(test)]
 mod tests {
+    use std::cell::RefCell;
     use std::collections::HashMap;
 
     use failure::Error;
@@ -47,13 +48,14 @@ mod tests {
     use crate::usecases::documents::{post_document, PostDocumentInput};
 
     pub struct DocumentRepositoryImplOnMemory {
-        pool: HashMap<DocumentId, Vec<Document>>,
+        pool: RefCell<HashMap<DocumentId, Vec<Document>>>,
     }
 
     impl DocumentRepository for DocumentRepositoryImplOnMemory {
-        fn insert(&mut self, document: &Document) -> Result<(), Error> {
+        fn insert(&self, document: &Document) -> Result<(), Error> {
             let _ = &self
                 .pool
+                .borrow_mut()
                 .entry(document.id.clone())
                 .or_insert_with(|| vec![])
                 .push(document.clone());
@@ -64,7 +66,7 @@ mod tests {
     #[test]
     fn success_post_document() {
         let mut repository = DocumentRepositoryImplOnMemory {
-            pool: HashMap::new(),
+            pool: RefCell::new(HashMap::new()),
         };
         let input = PostDocumentInput::new(
             DocumentTitle::new(String::from("sample title")),
